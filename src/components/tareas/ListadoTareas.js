@@ -1,15 +1,23 @@
 import React,{Fragment,useContext} from 'react';
 import Tarea from './Tarea';
 import proyectoContext from '../../context/proyectos/proyectoContext';
+import tareaContext from '../../context/tareas/tareaContext';
+
 
 
 
 const ListadoTareas = () => {
 
 
-    //Extraer proyectos de state inicial
+    //Extraer proyectos de state inicial de proyecto Context
     const proyectosContext = useContext(proyectoContext)
     const {proyecto,eliminarProyecto} = proyectosContext;
+
+
+     //Obteneer las tareas del proyecto de tareaContext
+     const tareasContext  = useContext(tareaContext);
+     const {tareasproyecto} = tareasContext;
+ 
 
     //Si no hay ningun proyecto Seleccionado
     if(!proyecto) return <h2>Selecciona un proyecto</h2>
@@ -17,13 +25,7 @@ const ListadoTareas = () => {
     //Array destructuring para extraer el proyecto actual
     const [proyectoActual] =proyecto
 
-    const tareasProyecto = [
-        {   nombre :'Elegir Plataforma', estado:true},
-        {   nombre :'Elegir Colores', estado:false},
-        {   nombre :'Elegir Plataforma de Pago', estado:true},
-        {   nombre :'Elegir Hosting', estado:false},
-            
-    ]
+    
 
     return (
         
@@ -32,9 +34,9 @@ const ListadoTareas = () => {
             <h2>{proyectoActual.nombre}</h2>
 
             <ul className="listado-tareas">
-                {tareasProyecto.length===0 
+                {tareasproyecto.length===0 
                 ? (<li className="tarea"><p>No hay tareas</p></li>)
-                : tareasProyecto.map( tarea => (
+                : tareasproyecto.map( tarea => (
                     <Tarea
                         tarea={tarea}    
                     />
