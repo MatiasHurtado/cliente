@@ -1,4 +1,4 @@
-import React,{useContext,useState} from 'react';
+import React,{useContext,useEffect,useState} from 'react';
 
 import proyectoContext from '../../context/proyectos/proyectoContext';
 
@@ -12,7 +12,18 @@ const FormTarea = () => {
 
     //Obteneer las tareas del proyecto de tareaContext
     const tareasContext  = useContext(tareaContext);
-    const {errortarea,agregarTarea,validarTarea,obtenerTareas} = tareasContext;
+    const {tareaseleccionada,errortarea,agregarTarea,validarTarea,obtenerTareas,actualizarTarea,limpiarTarea} = tareasContext;
+
+    //Effect que detecta si hay una tarea seleccionada
+    useEffect(()=>{
+        if(tareaseleccionada !== null){
+            guardarTarea(tareaseleccionada)
+        }else{
+            guardarTarea({
+                nombre:''
+            })
+        }
+    },[tareaseleccionada])
 
 
      //State del formulario
@@ -51,13 +62,29 @@ const FormTarea = () => {
             return;
         }
 
+
+        //Si es edicion o si es una nueva Tarea
+        if(tareaseleccionada === null) {
+            //Tarea nueva
+
+
+
+            //Agregar la nueva tarea al state de tarea
+            tarea.proyectoId = proyectoActual.id;
+            tarea.estado = false
+            agregarTarea(tarea);
+        }else{
+            //Actualizar Tarea existente
+            actualizarTarea(tarea);
+
+            //Elimina tarea Seleccionada
+            limpiarTarea();
+        }
+
         //Pasar la validacion
 
 
-        //Agregar la nueva tarea al state de tarea
-        tarea.proyectoId = proyectoActual.id;
-        tarea.estado = false
-        agregarTarea(tarea)
+    
 
         //Actualizar las tareas del proyecto actual
         obtenerTareas(proyectoActual.id)
@@ -88,7 +115,7 @@ const FormTarea = () => {
                     <input
                         type="submit"
                         className="btn btn-primario btn-submit btn-block"
-                        value="Agregar Tarea"
+                        value={tareaseleccionada? 'Editar Tarea' : 'Agregar Tarea'}
                        
                     />
                 </div>

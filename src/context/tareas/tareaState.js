@@ -1,10 +1,16 @@
 import React, { useReducer } from 'react';
 import TareaContext from './tareaContext';
 import tareaReducer from './tareaReducer';
+import uuid from 'uuid/dist/v4'
 
 import {TAREAS_PROYECTOS,
         AGREGAR_TAREA,
-        VALIDAR_TAREA
+        VALIDAR_TAREA,
+        ELIMINAR_TAREA,
+        ESTADO_TAREA,
+        TAREA_ACTUAL,
+        ACTUALIZAR_TAREA,
+        LIMPIAR_TAREA
 
         } 
 from '../../types/index';
@@ -13,22 +19,22 @@ const TareaState = props =>{
 
     const initialState = {
         tareas:[  
-        {   nombre :'Elegir Plataforma', estado:true,proyectoId:1},
-        {   nombre :'Elegir Colores', estado:false,proyectoId:2},
-        {   nombre :'Elegir Plataforma de Pago', estado:true,proyectoId:3},
-        {   nombre :'Elegir Hosting', estado:false,proyectoId:4},
-        {   nombre :'Elegir Plataforma', estado:true,proyectoId:4},
-        {   nombre :'Elegir Colores', estado:false,proyectoId:3},
-        {   nombre :'Elegir Plataforma de Pago', estado:true,proyectoId:2},
-        {   nombre :'Elegir Hosting', estado:false,proyectoId:1},
-        {   nombre :'Elegir Plataforma', estado:true,proyectoId:3},
-        {   nombre :'Elegir Colores', estado:false,proyectoId:1},
-        {   nombre :'Elegir Plataforma de Pago', estado:true,proyectoId:4},
-        {   nombre :'Elegir Hosting', estado:false,proyectoId:2},
+        {  id:1,nombre :'Elegir Plataforma', estado:true,proyectoId:1},
+        {  id:2, nombre :'Elegir Colores', estado:false,proyectoId:2},
+        {  id:3, nombre :'Elegir Plataforma de Pago', estado:true,proyectoId:3},
+        {  id:4, nombre :'Elegir Hosting', estado:false,proyectoId:4},
+        {  id:5, nombre :'Elegir Plataforma', estado:true,proyectoId:4},
+        {  id:6, nombre :'Elegir Colores', estado:false,proyectoId:3},
+        {  id:7, nombre :'Elegir Plataforma de Pago', estado:true,proyectoId:2},
+        {  id:8,  nombre :'Elegir Hosting', estado:false,proyectoId:1},
+        {  id:9,  nombre :'Elegir Plataforma', estado:true,proyectoId:3},
+        {  id:10, nombre :'Elegir Colores', estado:false,proyectoId:1},
+        {  id:11, nombre :'Elegir Plataforma de Pago', estado:true,proyectoId:4},
+        {  id:12, nombre :'Elegir Hosting', estado:false,proyectoId:2},
             ],
         tareasproyecto:null,
-        errortarea:false
-
+        errortarea:false,
+        tareaseleccionada:null
  
     }
 
@@ -49,6 +55,7 @@ const TareaState = props =>{
     }
     //Agregar una tarea al proyecto seleccionado
     const agregarTarea = tarea => {
+        tarea.id = uuid()
         dispatch({
             type:AGREGAR_TAREA,
             payload:tarea
@@ -61,6 +68,42 @@ const TareaState = props =>{
             type:VALIDAR_TAREA
         })
     }
+    //Eliminar Tarea por id
+    const eliminarTarea =(id) =>{
+        dispatch({
+            type:ELIMINAR_TAREA,
+            payload:id
+        })
+    }
+    //Cambia estado de Cada Tarea
+    const cambiarEstadoTarea = tarea => {
+        dispatch({
+            type:ESTADO_TAREA,
+            payload:tarea
+        })
+    }
+
+    //Extrae una tarea para edicion
+    const guardarTareaActual = tarea =>{
+        dispatch({
+            type:TAREA_ACTUAL,
+            payload:tarea
+        })
+    }
+
+    //Edita o modifica una tarea 
+    const actualizarTarea = tarea =>{
+        dispatch({
+            type:ACTUALIZAR_TAREA,
+            payload:tarea
+        })
+    }
+    //Elimina la tarea seleccionada
+    const limpiarTarea =() =>{
+        dispatch({
+            type:LIMPIAR_TAREA
+        })
+    }
 
     return (
 
@@ -69,9 +112,15 @@ const TareaState = props =>{
                 tareas:state.tareas,
                 tareasproyecto: state.tareasproyecto,
                 errortarea: state.errortarea,
+                tareaseleccionada:state.tareaseleccionada,
                 obtenerTareas,
                 agregarTarea,
-                validarTarea
+                validarTarea,
+                eliminarTarea,
+                cambiarEstadoTarea,
+                guardarTareaActual,
+                actualizarTarea,
+                limpiarTarea
             }}
         >
 
