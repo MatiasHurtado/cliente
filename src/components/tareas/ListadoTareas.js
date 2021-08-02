@@ -31,7 +31,7 @@ const ListadoTareas = () => {
         
       
         <Fragment>
-            <h2>{proyectoActual.nombre}</h2>
+            <h2><span>Proyecto: </span>{proyectoActual.nombre}</h2>
 
             <ul className="listado-tareas">
                 {tareasproyecto.length===0 
@@ -39,7 +39,7 @@ const ListadoTareas = () => {
                     : <TransitionGroup>
                     {tareasproyecto.map( tarea => (
                        <CSSTransition
-                            key={tarea.id}
+                            key={tarea._id}
                             timeout={200}
                             classNames="tarea"
                        >
@@ -55,7 +55,7 @@ const ListadoTareas = () => {
             <button 
                 type="button"
                 className="btn btn-eliminar"
-                onClick={()=>eliminarProyecto(proyectoActual.id)}
+                onClick={()=>eliminarProyecto(proyectoActual._id)}
             >Eliminar Proyecto &times;</button>
         </Fragment>
        
