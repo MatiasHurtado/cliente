@@ -23,6 +23,7 @@ const ListadoProyectos = () => {
         }
 
         obtenerProyectos();
+        // eslint-disable-next-line
     },[mensaje])
 
     if(proyectos.length === 0) return <p>No hay proyectos, comienza creando uno</p>;

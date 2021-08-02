@@ -91,7 +91,7 @@ const AuthState = props => {
             //Obtener el usuario
             usuarioAutenticado();
         } catch (error) {
-            console.log(error.response.data.msg);
+            console.log(error);
             const alerta = {
                 msg:error.response.data.msg,
                 categoria:'alerta-error'
